@@ -1,0 +1,4 @@
+---
+ansible_user: brassgog
+ansible_port: 5622
+remote_home: "/home/{{ ansible_user }}/"
