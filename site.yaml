@@ -1,0 +1,9 @@
+---
+- name: test connection
+  hosts: bg
+  tasks:
+    - name: test connection
+      ping:
+
+    - name: test host vars
+      debug: var=ansible_user_dir
