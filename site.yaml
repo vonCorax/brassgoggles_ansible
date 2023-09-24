@@ -7,3 +7,9 @@
 
     - name: test host vars
       debug: var=ansible_user_dir
+  
+  roles:
+    - role: backup_db
+      database:
+        db_name: brassgog_forum
+        backup_dir: /backup
