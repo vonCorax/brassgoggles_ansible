@@ -1,9 +1,4 @@
 ---
-# tasks file for backup_db
-# - name: test role args
-#   ansible.builtin.debug:
-#     var: "db.database.backup_dest | ansible.builtin.expanduser"
-
 - name: dump database
   community.mysql.mysql_db:
     name: "{{ db.database.db_name }}"
@@ -29,4 +24,3 @@
   ansible.builtin.file:
     path: "{{ dump_file_path }}.bz2"
     state: absent
-    

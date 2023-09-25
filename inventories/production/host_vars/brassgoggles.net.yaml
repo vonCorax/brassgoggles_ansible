@@ -7,8 +7,8 @@ databases:
       backup_dir: /backups/forum
       db_password: "{{ brassgog_password }}"
       backup_dest: "~/Documents/Backups/forum"
-  # - database:
-  #     db_name: brassgog_wiki
-  #     backup_dir: /backups/wiki
-  #     db_password: "{{ brassgog_password }}"
-  #     backup_dest: "../Backups/wiki"
+  - database:
+      db_name: brassgog_wiki
+      backup_dir: /backups/wiki
+      db_password: "{{ brassgog_password }}"
+      backup_dest: "~/Documents/Backups/wiki"
