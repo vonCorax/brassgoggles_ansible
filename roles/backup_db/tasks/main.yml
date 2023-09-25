@@ -2,4 +2,14 @@
 # tasks file for backup_db
 - name: test role args
   ansible.builtin.debug:
-    var: db
+    var: dump_file_path
+
+- name: dump database
+  community.mysql.mysql_db:
+    name: "{{ db.database.db_name }}"
+    state: dump
+    target: "{{ dump_file_path }}"
+    single_transaction: true
+    dump_extra_args: --no-tablespaces
+    quick: true
+    login_password: "{{ db.database.db_password }}"

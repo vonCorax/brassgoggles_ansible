@@ -4,13 +4,9 @@ ansible_port: 5622
 databases:
   - database:
       db_name: brassgog_forum
-      backup_dir: /backup/forum
+      backup_dir: /backups/forum
       db_password: "{{ brassgog_password }}"
-  - database:
-      db_name: brassgog_wiki
-      backup_dir: /backup/wiki
-      db_password: "{{ brassgog_password }}"
-# database:
-#   db_name: brassgog_forum
-#   backup_dir: /backup/forum
-#   db_password: "{{ brassgog_password }}"
+  # - database:
+  #     db_name: brassgog_wiki
+  #     backup_dir: /backup/wiki
+  #     db_password: "{{ brassgog_password }}"

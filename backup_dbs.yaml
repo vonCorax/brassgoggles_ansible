@@ -1,6 +1,6 @@
 ---
 - name: backup databases
-  hosts: database
+  hosts: bg
 
   vars_files:
     - secret.yaml
