@@ -1,4 +1,16 @@
 ---
 ansible_ssh_user: brassgog
 ansible_port: 5622
-remote_home: "{{ ansible_user_dir }}/"
+databases:
+  - database:
+      db_name: brassgog_forum
+      backup_dir: /backup/forum
+      db_password: "{{ brassgog_password }}"
+  - database:
+      db_name: brassgog_wiki
+      backup_dir: /backup/wiki
+      db_password: "{{ brassgog_password }}"
+# database:
+#   db_name: brassgog_forum
+#   backup_dir: /backup/forum
+#   db_password: "{{ brassgog_password }}"

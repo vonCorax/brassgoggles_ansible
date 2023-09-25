@@ -1,15 +1,6 @@
 ---
-- name: test connection
-  hosts: all
-  tasks:
-    - name: test connection
-      ping:
+# - name: test connection
+#   hosts: all
 
-    - name: test host vars
-      debug: var=ansible_user_dir
-  
-  roles:
-    - role: backup_db
-      database:
-        db_name: brassgog_forum
-        backup_dir: /backup
+- name: include backup_dbs playbook
+  ansible.builtin.import_playbook: backup_dbs.yaml

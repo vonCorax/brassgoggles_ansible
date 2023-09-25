@@ -1,0 +1,14 @@
+---
+- name: backup databases
+  hosts: database
+
+  vars_files:
+    - secret.yaml
+
+  tasks:
+  - name: call backup role
+    with_items: "{{ databases }}"
+    include_role:
+      name: backup_db
+    vars:
+      db: "{{ item }}"
