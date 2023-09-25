@@ -1,8 +1,8 @@
 ---
 # tasks file for backup_db
-- name: test role args
-  ansible.builtin.debug:
-    var: dump_file_path
+# - name: test role args
+#   ansible.builtin.debug:
+#     var: "db.database.backup_dest | ansible.builtin.expanduser"
 
 - name: dump database
   community.mysql.mysql_db:
@@ -13,3 +13,20 @@
     dump_extra_args: --no-tablespaces
     quick: true
     login_password: "{{ db.database.db_password }}"
+
+- name: compress dump file
+  community.general.archive:
+    path: "{{ dump_file_path }}"
+    format: "bz2"
+    remove: true
+
+- name: fetch compressed dump file
+  ansible.builtin.fetch:
+    src: "{{ dump_file_path }}.bz2"
+    dest: "{{ db.database.backup_dest | ansible.builtin.expanduser }}"
+
+- name: delete dump file from server
+  ansible.builtin.file:
+    path: "{{ dump_file_path }}.bz2"
+    state: absent
+    
