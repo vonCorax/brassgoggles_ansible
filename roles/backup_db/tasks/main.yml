@@ -1,13 +1,13 @@
 ---
 - name: dump database
   community.mysql.mysql_db:
-    name: "{{ db.database.db_name }}"
+    name: "{{ db.db_name }}"
     state: dump
     target: "{{ dump_file_path }}"
     single_transaction: true
     dump_extra_args: --no-tablespaces
     quick: true
-    login_password: "{{ db.database.db_password }}"
+    login_password: "{{ db.db_password }}"
 
 - name: compress dump file
   community.general.archive:
@@ -18,7 +18,7 @@
 - name: fetch compressed dump file
   ansible.builtin.fetch:
     src: "{{ dump_file_path }}.bz2"
-    dest: "{{ db.database.backup_dest | ansible.builtin.expanduser }}"
+    dest: "{{ db.backup_dest | ansible.builtin.expanduser }}"
 
 - name: delete dump file from server
   ansible.builtin.file:
