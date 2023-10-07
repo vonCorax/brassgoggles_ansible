@@ -19,6 +19,7 @@
   ansible.builtin.fetch:
     src: "{{ dump_file_path }}.bz2"
     dest: "{{ db.backup_dest | ansible.builtin.expanduser }}"
+    flat: true
 
 - name: delete dump file from server
   ansible.builtin.file:

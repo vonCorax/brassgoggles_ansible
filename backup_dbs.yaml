@@ -8,7 +8,7 @@
   tasks:
   - name: call backup role
     with_items: "{{ databases }}"
-    include_role:
+    ansible.builtin.include_role:
       name: backup_db
     vars:
       db: "{{ item }}"
