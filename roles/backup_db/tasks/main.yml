@@ -14,14 +14,15 @@
     path: "{{ dump_file_path }}"
     format: "bz2"
     remove: true
+  register: arc_result
 
 - name: fetch compressed dump file
   ansible.builtin.fetch:
-    src: "{{ dump_file_path }}.bz2"
-    dest: "{{ db.backup_dest | ansible.builtin.expanduser }}"
+    src: "{{ arc_result.dest }}"
+    dest: "{{ backup_dest | ansible.builtin.expanduser }}"
     flat: true
 
 - name: delete dump file from server
   ansible.builtin.file:
-    path: "{{ dump_file_path }}.bz2"
+    path: "{{ arc_result.dest }}"
     state: absent
