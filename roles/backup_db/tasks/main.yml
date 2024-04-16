@@ -1,4 +1,10 @@
 ---
+- name: assert backup path
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}{{ db.backup_dir }}"
+    state: directory
+    mode: "0755"
+
 - name: dump database
   community.mysql.mysql_db:
     name: "{{ db.db_name }}"
