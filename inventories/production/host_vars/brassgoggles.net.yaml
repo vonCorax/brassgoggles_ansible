@@ -1,11 +1,11 @@
 ---
-ansible_ssh_user: brassgog
-ansible_port: 5622
+ansible_ssh_user: "{{ brassgoggles.userid }}"
+ansible_port: "{{ brassgoggles.port }}"
 backup_dest: "/home/dave/Documents/Backups/brassgoggles.net/"
 databases:
   - db_name: brassgog_forum
     backup_dir: /backups/forum
-    db_password: "{{ brassgog_password }}"
+    db_password: "{{ brassgoggles.passwd }}"
   - db_name: brassgog_wiki
     backup_dir: /backups/wiki
-    db_password: "{{ brassgog_password }}"
+    db_password: "{{ brassgoggles.passwd }}"

@@ -1,7 +1,0 @@
----
-ansible_ssh_user: irishben
-backup_dest: "~/Documents/Backups/irishbenevolentsociety.ca/"
-databases:
-  - db_name: irishben_pl1
-    backup_dir: /backups/phplist_backups
-    db_password: "{{ irishben_password }}"

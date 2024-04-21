@@ -3,7 +3,7 @@
   hosts: bg
 
   vars_files:
-    - /home/dave/Documents/admin/ansible/secret.yaml
+    - /home/dave/Documents/admin/brassgoggles/secret.yaml
 
   tasks:
   - name: call backup role

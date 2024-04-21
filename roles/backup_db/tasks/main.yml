@@ -5,30 +5,33 @@
     state: directory
     mode: "0755"
 
-- name: dump database
-  community.mysql.mysql_db:
-    name: "{{ db.db_name }}"
-    state: dump
-    target: "{{ dump_file_path }}"
-    single_transaction: true
-    dump_extra_args: --no-tablespaces
-    quick: true
-    login_password: "{{ db.db_password }}"
+- name: perform backup
+  block:
+    - name: dump database
+      community.mysql.mysql_db:
+        name: "{{ db.db_name }}"
+        state: dump
+        target: "{{ dump_file_path }}"
+        single_transaction: true
+        dump_extra_args: --no-tablespaces
+        quick: true
+        login_password: "{{ db.db_password }}"
+      register: dump_result
 
-- name: compress dump file
-  community.general.archive:
-    path: "{{ dump_file_path }}"
-    format: "bz2"
-    remove: true
-  register: arc_result
+    - name: compress dump file
+      community.general.archive:
+        path: "{{ dump_file_path }}"
+        format: "bz2"
+        remove: true
+      register: arc_result
 
-- name: fetch compressed dump file
-  ansible.builtin.fetch:
-    src: "{{ arc_result.dest }}"
-    dest: "{{ backup_dest | ansible.builtin.expanduser }}"
-    flat: true
+    - name: fetch compressed dump file
+      ansible.builtin.fetch:
+        src: "{{ arc_result.dest }}"
+        dest: "{{ backup_dest | ansible.builtin.expanduser }}"
+        flat: true
 
-- name: delete dump file from server
-  ansible.builtin.file:
-    path: "{{ arc_result.dest }}"
-    state: absent
+    - name: delete dump file from server
+      ansible.builtin.file:
+        path: "{{ arc_result.dest }}"
+        state: absent
