@@ -16,7 +16,7 @@
         dump_extra_args: --no-tablespaces
         quick: true
         login_password: "{{ db.db_password }}"
-      register: dump_result
+      register: dmp_result
 
     - name: compress dump file
       community.general.archive:
@@ -30,8 +30,35 @@
         src: "{{ arc_result.dest }}"
         dest: "{{ backup_dest | ansible.builtin.expanduser }}"
         flat: true
+      register: fet_result
 
     - name: delete dump file from server
       ansible.builtin.file:
         path: "{{ arc_result.dest }}"
         state: absent
+      register: del_result
+  
+  rescue:
+    - name: send error email
+      community.general.mail:
+        host: "{{ brassgoggles.email.smtp_host }}"
+        port: "{{ brassgoggles.email.smtp_port }}"
+        username: "{{ brassgoggles.email.smtp_user }}"
+        password: "{{ brassgoggles.email.smtp_pass }}"
+        from: "{{ brassgoggles.email.smtp_user}}"
+        to: "{{ brassgoggles.email.email_to }}"
+        subject: Nightly Backup Failed
+        body: "{{ lookup('template', 'backup_fail.j2') }}"
+      delegate_to: localhost
+
+- name: send completion message
+  community.general.mail:
+    host: "{{ brassgoggles.email.smtp_host }}"
+    port: "{{ brassgoggles.email.smtp_port }}"
+    username: "{{ brassgoggles.email.smtp_user }}"
+    password: "{{ brassgoggles.email.smtp_pass }}"
+    from: "{{ brassgoggles.email.smtp_user}}"
+    to: "{{ brassgoggles.email.email_to }}"
+    subject: Nightly Backup Complete
+    body: "{{ db.db_name }} backup complete."
+  delegate_to: localhost
