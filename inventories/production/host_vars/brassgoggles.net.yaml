@@ -9,3 +9,4 @@ databases:
   - db_name: brassgog_wiki
     backup_dir: /backups/wiki
     db_password: "{{ brassgoggles.passwd }}"
+days_to_retain: 14

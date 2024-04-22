@@ -5,7 +5,7 @@ Compress of {{ dump_file_path }} failed: {{ arc_result.msg }}
 {% elif fet_result.failed -%}
 Fetch of {{ arc_result.dest }} failed: {{ fet_result.msg }}
 {% elif del_result.failed -%}
-Deletion of {{ arc_result.dest }} failed: {{ del_result.msg }}
+Deletion of backup files failed: {{ del_result.msg }}
 {% else -%}
 Backup of {{ db.db_name }} failed due to unspecified error.
 {% endif -%}

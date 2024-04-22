@@ -32,12 +32,22 @@
         flat: true
       register: fet_result
 
+    - name: find files to delete
+      ansible.builtin.find:
+        paths: "{{ backup_dest | ansible.builtin.expanduser }}"
+        age: "{{ days_to_retain }}d"
+        recurse: true
+        patterns: '*.bz2'
+      register: find_result
+
     - name: delete dump file from server
       ansible.builtin.file:
-        path: "{{ arc_result.dest }}"
+        path: "{{ item.path }}"
         state: absent
+      with_items: "{{ find_result.files }}"
       register: del_result
-  
+
+
   rescue:
     - name: send error email
       community.general.mail:
