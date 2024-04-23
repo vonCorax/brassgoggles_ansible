@@ -34,7 +34,7 @@
 
     - name: find files to delete
       ansible.builtin.find:
-        paths: "{{ backup_dest | ansible.builtin.expanduser }}"
+        paths: "{{ ansible_user_dir }}{{ db.backup_dir }}"
         age: "{{ days_to_retain }}d"
         recurse: true
         patterns: '*.bz2'
@@ -59,7 +59,6 @@
         to: "{{ brassgoggles.email.email_to }}"
         subject: Nightly Backup Failed
         body: "{{ lookup('template', 'backup_fail.j2') }}"
-      delegate_to: localhost
 
 - name: send completion message
   community.general.mail:
@@ -71,4 +70,3 @@
     to: "{{ brassgoggles.email.email_to }}"
     subject: Nightly Backup Complete
     body: "{{ db.db_name }} backup complete."
-  delegate_to: localhost
